@@ -1,6 +1,9 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/laracarvalho/goboards/handler"
+)
 
 func Start() {
 	router := gin.Default()
@@ -10,6 +13,8 @@ func Start() {
 			"message": "Project reachable.",
 		})
 	})
+
+	router.POST("/listings", handler.CreateListingsHandler)
 
 	router.Run(":8080")
 }
