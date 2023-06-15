@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"github.com/laracarvalho/goboards/router"
 )
 
 func main() {
-	fmt.Printf("Hello, world!")
+	router.Start()
 }
