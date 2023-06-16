@@ -7,12 +7,12 @@ func errParamIsRequired(name, typ string) error {
 }
 
 type CreateListingRequest struct {
-	Role     string `json:"role"`
-	Company  string `json:"company"`
-	Location string `json:"location"`
-	Remote   *bool  `json:"remote"`
-	Link     string `json:"link"`
-	Salary   int64  `json:"salary"`
+	Role        string `json:"role"`
+	Company     string `json:"company"`
+	Location    string `json:"location"`
+	Remote      *bool  `json:"remote"`
+	Link        string `json:"link"`
+	Salary      int64  `json:"salary"`
 	Description string `json:"description"`
 }
 
@@ -42,4 +42,22 @@ func (r *CreateListingRequest) Validate() error {
 		return errParamIsRequired("description", "string")
 	}
 	return nil
+}
+
+type UpdateListingRequest struct {
+	Role        string `json:"role"`
+	Company     string `json:"company"`
+	Location    string `json:"location"`
+	Remote      *bool  `json:"remote"`
+	Link        string `json:"link"`
+	Salary      int64  `json:"salary"`
+	Description string `json:"description"`
+}
+
+func (r *UpdateListingRequest) Validate() error {
+	if r.Role != "" || r.Company != "" || r.Location != "" || r.Remote != nil || r.Link != "" || r.Salary > 0 || r.Description != "" {
+		return nil
+	}
+
+	return fmt.Errorf("At least one valid field must be provided")
 }

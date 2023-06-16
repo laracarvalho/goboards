@@ -19,7 +19,7 @@ func Start() {
 	router.GET("/listings", handler.ListListingsHandler)
 	router.DELETE("/listing", handler.DeleteListingHandler)
 	router.GET("/listing", handler.ShowListingsHandler)
-
+	router.PUT("/listing", handler.UpdateListingsHandler)
 
 	router.Run(":8080")
 }
