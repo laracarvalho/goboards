@@ -15,8 +15,9 @@ func Start() {
 		})
 	})
 
-	router.POST("/listing", handler.CreateListingsHandler)
+	router.POST("/listing", handler.CreateListingHandler)
 	router.GET("/listings", handler.ListListingsHandler)
+	router.DELETE("/listing", handler.DeleteListingHandler)
 
 
 	router.Run(":8080")

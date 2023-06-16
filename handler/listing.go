@@ -1,13 +1,14 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laracarvalho/goboards/schema"
 )
 
-func CreateListingsHandler(ctx *gin.Context) {
+func CreateListingHandler(ctx *gin.Context) {
 	req := CreateListingRequest{}
 	ctx.BindJSON(&req)
 
@@ -45,4 +46,25 @@ func ListListingsHandler(ctx *gin.Context) {
 	}
 
 	sendSuccess(ctx, "list-Listing", listing)
+}
+
+func DeleteListingHandler(ctx *gin.Context) {
+	id := ctx.Query("id")
+	if id == "" {
+		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
+		return
+	}
+	
+	listing := schema.Listing{}
+	if err := db.First(&listing, id).Error; err != nil {
+		sendError(ctx, http.StatusNotFound, fmt.Sprintf("listing with id: %s not found", id))
+		return
+	}
+
+	if err := db.Delete(&listing).Error; err != nil {
+		sendError(ctx, http.StatusInternalServerError, fmt.Sprintf("error deleting listing with id: %s", id))
+		return
+	}
+	
+	sendSuccess(ctx, "delete-listing", listing)
 }
