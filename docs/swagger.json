@@ -3,5 +3,383 @@
     "info": {
         "contact": {}
     },
-    "paths": {}
+    "paths": {
+        "/listing": {
+            "get": {
+                "description": "Show a single listing",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Listings"
+                ],
+                "summary": "Show listings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Listing identification",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Listing data to Update",
+                        "name": "opening",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.UpdateListingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ShowListingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates a listing",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Listings"
+                ],
+                "summary": "Update listings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Listing identification",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.UpdateListingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new job listing",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Listings"
+                ],
+                "summary": "Create listing",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.CreateListingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handler.CreateListingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a listing",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Listings"
+                ],
+                "summary": "Delete listings",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Listing identification",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.DeleteListingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/listings": {
+            "get": {
+                "description": "Returns an array of listing",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Listings"
+                ],
+                "summary": "List listings",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ListListingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.CreateListingRequest": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "remote": {
+                    "type": "boolean"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.CreateListingResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/schema.ListingResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.DeleteListingResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/schema.ListingResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "errorCode": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.ListListingResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.ListingResponse"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.ShowListingResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/schema.ListingResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.UpdateListingRequest": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "remote": {
+                    "type": "boolean"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.UpdateListingResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/schema.ListingResponse"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.ListingResponse": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "remote": {
+                    "type": "boolean"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "salary": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

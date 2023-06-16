@@ -8,6 +8,18 @@ import (
 	"github.com/laracarvalho/goboards/schema"
 )
 
+// @BasePath /api/v1
+
+// @Summary Create listing
+// @Description Create a new job listing
+// @Tags Listings
+// @Accept json
+// @Produce json
+// @Param request body CreateListingRequest true "Request body"
+// @Success 201 {object} CreateListingResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /listing [post]
 func CreateListingHandler(ctx *gin.Context) {
 	req := CreateListingRequest{}
 	ctx.BindJSON(&req)
@@ -34,9 +46,18 @@ func CreateListingHandler(ctx *gin.Context) {
 		return
 	}
 
-	sendSuccess(ctx, "create-listing", list)
+	sendCreatedSuccess(ctx, "create-listing", list)
 }
 
+// @Summary List listings
+// @Description Returns an array of listing
+// @Tags Listings
+// @Accept json
+// @Produce json
+// @Success 200 {object} ListListingResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /listings [get]
 func ListListingsHandler(ctx *gin.Context) {
 	listing := []schema.Listing{}
 
@@ -48,6 +69,16 @@ func ListListingsHandler(ctx *gin.Context) {
 	sendSuccess(ctx, "list-Listing", listing)
 }
 
+// @Summary Delete listings
+// @Description Deletes a listing
+// @Tags Listings
+// @Accept json
+// @Produce json
+// @Param id query string true "Listing identification"
+// @Success 200 {object} DeleteListingResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /listing [delete]
 func DeleteListingHandler(ctx *gin.Context) {
 	id := ctx.Query("id")
 	if id == "" {
@@ -69,6 +100,17 @@ func DeleteListingHandler(ctx *gin.Context) {
 	sendSuccess(ctx, "delete-listing", listing)
 }
 
+// @Summary Show listings
+// @Description Show a single listing
+// @Tags Listings
+// @Accept json
+// @Produce json
+// @Param id query string true "Listing identification"
+// @Param opening body UpdateListingRequest true "Listing data to Update"
+// @Success 200 {object} ShowListingResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /listing [get]
 func ShowListingsHandler(ctx *gin.Context) {
 	id := ctx.Query("id")
 	if id == "" {
@@ -84,6 +126,16 @@ func ShowListingsHandler(ctx *gin.Context) {
 	sendSuccess(ctx, "show-listing", listing)
 }
 
+// @Summary Update listings
+// @Description Updates a listing
+// @Tags Listings
+// @Accept json
+// @Produce json
+// @Param id query string true "Listing identification"
+// @Success 200 {object} UpdateListingResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /listing [put]
 func UpdateListingsHandler(ctx *gin.Context) {
 	req := UpdateListingRequest{}
 

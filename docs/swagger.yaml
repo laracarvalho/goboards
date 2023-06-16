@@ -1,4 +1,251 @@
+definitions:
+  handler.CreateListingRequest:
+    properties:
+      company:
+        type: string
+      description:
+        type: string
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+    type: object
+  handler.CreateListingResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schema.ListingResponse'
+      message:
+        type: string
+    type: object
+  handler.DeleteListingResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schema.ListingResponse'
+      message:
+        type: string
+    type: object
+  handler.ErrorResponse:
+    properties:
+      errorCode:
+        type: string
+      message:
+        type: string
+    type: object
+  handler.ListListingResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/schema.ListingResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  handler.ShowListingResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schema.ListingResponse'
+      message:
+        type: string
+    type: object
+  handler.UpdateListingRequest:
+    properties:
+      company:
+        type: string
+      description:
+        type: string
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+    type: object
+  handler.UpdateListingResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schema.ListingResponse'
+      message:
+        type: string
+    type: object
+  schema.ListingResponse:
+    properties:
+      company:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      link:
+        type: string
+      location:
+        type: string
+      remote:
+        type: boolean
+      role:
+        type: string
+      salary:
+        type: integer
+      updated_at:
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /listing:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a listing
+      parameters:
+      - description: Listing identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.DeleteListingResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Delete listings
+      tags:
+      - Listings
+    get:
+      consumes:
+      - application/json
+      description: Show a single listing
+      parameters:
+      - description: Listing identification
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Listing data to Update
+        in: body
+        name: opening
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateListingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ShowListingResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Show listings
+      tags:
+      - Listings
+    post:
+      consumes:
+      - application/json
+      description: Create a new job listing
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateListingRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.CreateListingResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Create listing
+      tags:
+      - Listings
+    put:
+      consumes:
+      - application/json
+      description: Updates a listing
+      parameters:
+      - description: Listing identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UpdateListingResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Update listings
+      tags:
+      - Listings
+  /listings:
+    get:
+      consumes:
+      - application/json
+      description: Returns an array of listing
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ListListingResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: List listings
+      tags:
+      - Listings
 swagger: "2.0"
