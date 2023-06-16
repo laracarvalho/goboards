@@ -14,5 +14,5 @@
 *.out
 
 Db
-.db
+*.db
 db/
