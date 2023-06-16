@@ -13,6 +13,6 @@
 
 *.out
 
-Db folder
-
+Db
+.db
 db/
