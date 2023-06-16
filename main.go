@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/laracarvalho/goboards/router"
 	"github.com/laracarvalho/goboards/config"
+	"github.com/laracarvalho/goboards/router"
 )
 
 var logger *config.Logger

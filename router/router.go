@@ -1,8 +1,14 @@
 package router
 
 import (
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/laracarvalho/goboards/handler"
+
+	docs "github.com/laracarvalho/goboards/docs"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func Start() {
@@ -15,11 +21,23 @@ func Start() {
 		})
 	})
 
-	router.POST("/listing", handler.CreateListingHandler)
-	router.GET("/listings", handler.ListListingsHandler)
-	router.DELETE("/listing", handler.DeleteListingHandler)
-	router.GET("/listing", handler.ShowListingsHandler)
-	router.PUT("/listing", handler.UpdateListingsHandler)
+	basePath := "/api/v1"
+	docs.SwaggerInfo.BasePath = basePath
+	v1 := router.Group(basePath)
+	{
+		v1.GET("/listings", handler.ListListingsHandler)
+		v1.POST("/listing", handler.CreateListingHandler)
+		v1.DELETE("/listing", handler.DeleteListingHandler)
+		v1.GET("/listing", handler.ShowListingsHandler)
+		v1.PUT("/listing", handler.UpdateListingsHandler)
+	}
 
-	router.Run(":8080")
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	router.Run("0.0.0.0:" + port)
 }
