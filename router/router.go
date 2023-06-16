@@ -6,6 +6,7 @@ import (
 )
 
 func Start() {
+	handler.InitHandler()
 	router := gin.Default()
 
 	router.GET("/health", func(c *gin.Context) {
