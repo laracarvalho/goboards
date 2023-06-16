@@ -65,6 +65,21 @@ func DeleteListingHandler(ctx *gin.Context) {
 		sendError(ctx, http.StatusInternalServerError, fmt.Sprintf("error deleting listing with id: %s", id))
 		return
 	}
-	
+
 	sendSuccess(ctx, "delete-listing", listing)
+}
+
+func ShowListingsHandler(ctx *gin.Context) {
+	id := ctx.Query("id")
+	if id == "" {
+		sendError(ctx, http.StatusBadRequest, errParamIsRequired("id", "queryParameter").Error())
+		return
+	}
+	listing := schema.Listing{}
+	if err := db.First(&listing, id).Error; err != nil {
+		sendError(ctx, http.StatusNotFound, "listing not found")
+		return
+	}
+
+	sendSuccess(ctx, "show-listing", listing)
 }
