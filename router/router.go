@@ -1,8 +1,6 @@
 package router
 
 import (
-	"os"
-
 	"github.com/gin-gonic/gin"
 	"github.com/laracarvalho/goboards/handler"
 
@@ -11,7 +9,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func Start() {
+func Start() *gin.Engine {
 	handler.InitHandler()
 	router := gin.Default()
 
@@ -34,10 +32,5 @@ func Start() {
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	router.Run("0.0.0.0:" + port)
+	return router
 }

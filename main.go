@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/laracarvalho/goboards/config"
 	"github.com/laracarvalho/goboards/router"
 )
@@ -16,5 +18,12 @@ func main() {
 		return
 	}
 
-	router.Start()
+	r := router.Start()
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	r.Run("0.0.0.0:" + port)
 }
