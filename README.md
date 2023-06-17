@@ -9,6 +9,7 @@ A job board API build with Go where you can create and manage your job listings.
 - GORM and SQLite to manage storage for the API
 - Swagger for API documentation and live testing
 - Makefile for managing commands and configuration
+- Tests for all handlers
 
 ## Installation
 
@@ -35,7 +36,6 @@ This project uses the following tools:
 
 ## Planned features
 
-- Add automated tests
 - Dockerize and host the app
 - Create a useful CI/CD flow
 - Add authentication
@@ -45,3 +45,7 @@ This project uses the following tools:
 ## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+## Credits
+
+This project was inspired by [arthur404dev](https://github.com/arthur404dev).
