@@ -5,11 +5,14 @@ A job board API build with Go where you can create and manage your job listings.
 ## Features
 
 - API ready for adding and managing job listings
+  - CRUD operations
+  - Pagination
 - Go-Gin as router for API
-- GORM and SQLite to manage storage for the API
+- GORM and SQLite to manage persistance for the API
 - Swagger for API documentation and live testing
 - Makefile for managing commands and configuration
 - Tests for all handlers
+- Workflow CI for auditing commits
 
 ## Installation
 
@@ -37,9 +40,7 @@ This project uses the following tools:
 ## Planned features
 
 - Dockerize and host the app
-- Create a useful CI/CD flow
 - Add authentication
-- Add pagination and filtering to listings
 - Create Candidate profiles
 
 ## License
