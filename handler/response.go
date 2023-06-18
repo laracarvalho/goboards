@@ -32,6 +32,15 @@ func sendSuccess(ctx *gin.Context, op string, data interface{}) {
 	})
 }
 
+func sendPaginatedSuccess(ctx *gin.Context, op string, data interface{}, pagination interface{}) {
+	ctx.Header("Content-type", "application/json")
+	ctx.JSON(http.StatusOK, gin.H{
+		"message":    fmt.Sprintf("operation from handler: %s successfull", op),
+		"data":       data,
+		"pagination": pagination,
+	})
+}
+
 type ErrorResponse struct {
 	Message   string `json:"message"`
 	ErrorCode string `json:"errorCode"`
@@ -53,11 +62,19 @@ type DeleteListingResponse struct {
 }
 
 type ListListingResponse struct {
-	Message string                   `json:"message"`
-	Data    []schema.ListingResponse `json:"data"`
+	Message    string                   `json:"message"`
+	Data       []schema.ListingResponse `json:"data"`
+	Pagination Pagination               `json:"pagination"`
 }
 
 type ShowListingResponse struct {
 	Message string                 `json:"message"`
 	Data    schema.ListingResponse `json:"data"`
+}
+
+type Pagination struct {
+	CurrentPage  int `json:"currentPage"`
+	PageSize     int `json:"pageSize"`
+	NextPage     int `json:"nextPage"`
+	PreviousPage int `json:"previousPage"`
 }

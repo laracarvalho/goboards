@@ -3,8 +3,10 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/laracarvalho/goboards/config"
 	"github.com/laracarvalho/goboards/schema"
 )
 
@@ -59,14 +61,22 @@ func CreateListingHandler(ctx *gin.Context) {
 // @Failure 500 {object} ErrorResponse
 // @Router /listings [get]
 func ListListingsHandler(ctx *gin.Context) {
+	page := ctx.Query("page")
+	page_size := ctx.Query("page_size")
+
 	listing := []schema.Listing{}
 
-	if err := db.Find(&listing).Error; err != nil {
+	if err := db.Scopes(config.Paginate(page, page_size)).Find(&listing).Error; err != nil {
 		sendError(ctx, http.StatusInternalServerError, "error returning Listing")
 		return
 	}
 
-	sendSuccess(ctx, "list-Listing", listing)
+	p, _ := strconv.Atoi(page)
+	ps, _ := strconv.Atoi(page_size)
+
+	pag := genPagination(p, ps)
+
+	sendPaginatedSuccess(ctx, "list-Listing", listing, pag)
 }
 
 // @Summary Delete listings

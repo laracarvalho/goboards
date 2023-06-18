@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/laracarvalho/goboards/schema"
 	"gorm.io/driver/sqlite"
@@ -20,7 +21,7 @@ func StartDB() (*gorm.DB, error) {
 		if err != nil {
 			return nil, err
 		}
-		
+
 		file.Close()
 	}
 
@@ -38,4 +39,24 @@ func StartDB() (*gorm.DB, error) {
 	}
 	// Return the DB
 	return db, nil
+}
+
+func Paginate(page string, page_size string) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		page, _ := strconv.Atoi(page)
+		if page <= 0 {
+			page = 1
+		}
+
+		pageSize, _ := strconv.Atoi(page_size)
+		switch {
+		case pageSize > 100:
+			pageSize = 100
+		case pageSize <= 0:
+			pageSize = 10
+		}
+
+		offset := (page - 1) * pageSize
+		return db.Offset(offset).Limit(pageSize)
+	}
 }
